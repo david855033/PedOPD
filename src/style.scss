@@ -4,7 +4,7 @@
     #front {
         border: 1px black solid;
         font-size: 24px;
-        font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", "標楷體", DFKai-SB, sans-serif;
+        font-family: Arial, "微軟正黑體", "Microsoft JhengHei", "標楷體", DFKai-SB, sans-serif;
         margin: auto;
         margin-top: 20px;
         background-color: hsl(45, 50, 90);
@@ -97,8 +97,9 @@
         height: 800px;
         border: 1px black solid;
         width: 400px;
-        overflow-y:scroll;
-        h4,h5{
+        overflow-y: scroll;
+        h4,
+        h5 {
             margin-top: 5px;
         }
     }

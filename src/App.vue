@@ -80,7 +80,7 @@
             </div>
           </div>
         </div>
-        <button id="submit" class="btn btn-secondary">submit</button>
+        <button id="submit" class="btn btn-secondary" @click="submit">submit</button>
       </div>
     </div>
     <div id="back">
@@ -100,29 +100,35 @@
       <div>selfpaid_multivita:{{selfpaid_multivita}}</div>
       <h4>[output]</h4>
       <h5>#IC01診(診間PA)</h5>
-      <div>卡號:</div>
-      <div>身分:</div>
-      <div>S:</div>
-      <div>O:</div>
-      <div>P:</div>
-      <div>診斷:</div>
-      <div>收費碼:</div>
+      <div v-show="opd.goverment_vaccine.show">
+        <div>卡號:{{opd.goverment_vaccine.card_no}}</div>
+        <div>身分:{{opd.goverment_vaccine.identity}}</div>
+        <div>S:{{opd.goverment_vaccine.subjective}}</div>
+        <div>O:{{opd.goverment_vaccine.objective}}</div>
+        <div>P:{{opd.goverment_vaccine.plan}}</div>
+        <div>診斷:{{opd.goverment_vaccine.diagnosis}}</div>
+        <div>收費碼:{{opd.goverment_vaccine.order}}</div>
+      </div>
       <h5>#兒童健檢診(診間BB)</h5>
-      <div>卡號:</div>
-      <div>身分:</div>
-      <div>S:</div>
-      <div>O:</div>
-      <div>P:</div>
-      <div>診斷:</div>
-      <div>收費碼:</div>
+      <div v-show="opd.health_check.show">
+        <div>卡號:{{opd.health_check.card_no}}</div>
+        <div>身分:{{opd.health_check.identity}}</div>
+        <div>S:{{opd.health_check.subjective}}</div>
+        <div>O:{{opd.health_check.objective}}</div>
+        <div>P:{{opd.health_check.plan}}</div>
+        <div>診斷:{{opd.health_check.diagnosis}}</div>
+        <div>收費碼:{{opd.health_check.order}}</div>
+      </div>
       <h5>#自費診(原診間)</h5>
-      <div>卡號:</div>
-      <div>身分:</div>
-      <div>S:</div>
-      <div>O:</div>
-      <div>P:</div>
-      <div>診斷:</div>
-      <div>收費碼:</div>
+      <div v-show="opd.self_paid_visit.show">
+        <div>卡號:{{opd.self_paid_visit.card_no}}</div>
+        <div>身分:{{opd.self_paid_visit.identity}}</div>
+        <div>S:{{opd.self_paid_visit.subjective}}</div>
+        <div>O:{{opd.self_paid_visit.objective}}</div>
+        <div>P:{{opd.self_paid_visit.plan}}</div>
+        <div>診斷:{{opd.self_paid_visit.diagnosis}}</div>
+        <div>收費碼:{{opd.self_paid_visit.order}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -146,8 +152,43 @@ export default {
       selfpaid_scanol: false,
       selfpaid_scanol_dose: "",
       selfpaid_vitd: false,
-      selfpaid_multivita: false
+      selfpaid_multivita: false,
+      opd: {
+        goverment_vaccine: {
+          show: false,
+          card_no: "",
+          identity: "",
+          subjective: "",
+          objective: "",
+          plan: "",
+          diagnosis: [],
+          order: []
+        },
+        health_check: {
+          show: false,
+          card_no: "",
+          identity: "",
+          subjective: "",
+          objective: "",
+          plan: "",
+          diagnosis: [],
+          order: []
+        },
+        self_paid_visit: {
+          show: false,
+          card_no: "",
+          identity: "",
+          subjective: "",
+          objective: "",
+          plan: "",
+          diagnosis: [],
+          order: []
+        }
+      }
     };
+  },
+  methods: {
+    submit() {}
   }
 };
 </script>
