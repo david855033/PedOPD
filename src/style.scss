@@ -1,0 +1,105 @@
+#container {
+    width: 100%;
+    display: flex;
+    #front {
+        border: 1px black solid;
+        font-size: 24px;
+        font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", "標楷體", DFKai-SB, sans-serif;
+        margin: auto;
+        margin-top: 20px;
+        background-color: hsl(45, 50, 90);
+        height: 800px;
+        width: 1000px;
+        overflow: hidden;
+        display: flex;
+        padding: 50px;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        #upper {
+            height: 300px;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            div {
+                width: 30%;
+                height: 100%;
+                select {
+                    font-size: 24px;
+                    height: 80%;
+                }
+            }
+        }
+        #lower {
+            display: flex;
+            justify-content: space-between;
+            height: 450px;
+            margin-top: 50px;
+            #measurements {
+                display: flex;
+                flex-direction: column;
+                width: 100px;
+                margin-top: 50px;
+                label {
+                    margin: 0px;
+                    height: 30px;
+                }
+                input {
+                    font-size: 24px;
+                    padding: 0px 0px 0px 5px;
+                }
+            }
+            .col-container {
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                div {
+                    width: 100%;
+                    textarea {
+                        width: 100%;
+                        height: 150px;
+                        resize: none;
+                        font-size: 24px;
+                    }
+                }
+                #additional-order {
+                    input[type='checkbox'] {
+                        width: 30px;
+                        height: 30px;
+                        +label {
+                            padding-left: 25px;
+                        }
+                    }
+                    #dose {
+                        margin: 0px;
+                        padding-left: 30px;
+                    }
+                    #scanol-dose {
+                        display: inline-block;
+                        font-size: 24px;
+                        width: 70px;
+                        padding: 0px 0px 0px 5px;
+                    }
+                }
+            }
+            #submit {
+                margin-top: 40px;
+                margin-left: -20px;
+                height: 355px;
+            }
+        }
+    }
+    #back {
+        margin: auto;
+        margin-top: 20px;
+        height: 800px;
+        border: 1px black solid;
+        width: 400px;
+        overflow-y:scroll;
+        h4,h5{
+            margin-top: 5px;
+        }
+    }
+}

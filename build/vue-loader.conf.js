@@ -9,7 +9,9 @@ const sourceMapEnabled = isProduction
 module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: sourceMapEnabled,
-    extract: isProduction
+    extract: isProduction,
+    'scss': 'vue-style - loader!css-loader!sass-loader',
+    'sass': 'vue-style - loader!css-loader!sass-loader ? indentedSyntax'
   }),
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,
@@ -18,9 +20,5 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
-  },
-  loaders: {
-    'scss': 'vue-style - loader!css-loader!sass-loader',
-    'sass': 'vue-style - loader!css-loader!sass-loader ? indentedSyntax'
   }
 }
