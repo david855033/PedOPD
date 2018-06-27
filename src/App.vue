@@ -137,9 +137,9 @@
 export default {
   data() {
     return {
-      goverment_vaccine: ["IC01-1", "IC01-2", "IC01-3"],
-      selfpaid_vaccine: ["RotaTeq", "RotaRix", "PCV-13"],
-      identity: ["民眾", "(71)兒童健檢", "(72)兒童健檢", "(73)兒童健檢"],
+      goverment_vaccine: ["IC01-1 HBV", "IC01-2 5in1 PCV-13(1)", "IC01-3  5in1 PCV-13(2)","IC01-4 BCG","IC01-5 6in1", "IC01-6 水痘MMR","PCV13+HAV(公費)","5in1","MMR(2) JE-IMO","4in1 DTaP+IPV"],
+      selfpaid_vaccine: ["RotaTeq", "RotaRix", "RotaTeq 北市", "RotaRix 北市", "PCV-13","HAV(自費)"],
+      identity: ["民眾", "(71)兒童健檢", "(72)兒童健檢", "(73)兒童健檢", "(75)兒童健檢", "(76)兒童健檢", "(77)兒童健檢", "(79)兒童健檢"],
       input: {
         goverment_vaccine_selected: "",
         selfpaid_vaccine_selected: [],
