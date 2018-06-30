@@ -6,14 +6,14 @@
           <label for="ic">選公費疫苗</label>
           <select class="form-control" id="ic" :size='goverment_vaccine.length' v-model="input.goverment_vaccine_selected">
             <option value="">無</option>
-            <option v-for='(vaccine,i) in goverment_vaccine' :key="i" :value="vaccine">{{vaccine}}</option>
+            <option v-for='(vaccine,i) in goverment_vaccine' :key="i" :value="vaccine.key">{{vaccine.name}}</option>
           </select>
         </div>
         <div id="self-paid-vaccine" class="form-group" :size='selfpaid_vaccine.length'>
           <label for="self-paid-vaccine">選自費疫苗</label>
           <select multiple class="form-control" id="ic" size='5' v-model="input.selfpaid_vaccine_selected">
             <option value="">無</option>
-            <option v-for='(vaccine,i) in selfpaid_vaccine' :key="i" :value="vaccine">{{vaccine}}</option>
+            <option v-for='(vaccine,i) in selfpaid_vaccine' :key="i" :value="vaccine.key">{{vaccine.name}}</option>
           </select>
         </div>
         <div id="identity" class="form-group" :size='identity.length'>
@@ -137,9 +137,36 @@
 export default {
   data() {
     return {
-      goverment_vaccine: ["IC01-1 HBV", "IC01-2 5in1 PCV-13(1)", "IC01-3  5in1 PCV-13(2)","IC01-4 BCG","IC01-5 6in1", "IC01-6 水痘MMR","PCV13+HAV(公費)","5in1","MMR(2) JE-IMO","4in1 DTaP+IPV"],
-      selfpaid_vaccine: ["RotaTeq", "RotaRix", "RotaTeq 北市", "RotaRix 北市", "PCV-13","HAV(自費)"],
-      identity: ["民眾", "(71)兒童健檢", "(72)兒童健檢", "(73)兒童健檢", "(75)兒童健檢", "(76)兒童健檢", "(77)兒童健檢", "(79)兒童健檢"],
+      goverment_vaccine: [
+        { key: "GV01", isIC01: true, name: "(IC01)HBV第二劑 1mo" },
+        { key: "GV02", isIC01: true, name: "(IC01)5in1 PCV-13(1) 2mo" },
+        { key: "GV03", isIC01: true, name: "(IC01)5in1 PCV-13(2) 4mo" },
+        { key: "GV04", isIC01: true, name: "(IC01)BCG 5mo" },
+        { key: "GV05", isIC01: true, name: "(IC01)6in1 6mo" },
+        { key: "GV06", isIC01: true, name: "(IC01)Varicella+MMR 1y" },
+        { key: "GV07", isIC01: false, name: "PCV-13(4)+HAV 1y" },
+        { key: "GV08", isIC01: false, name: "5in1" },
+        { key: "GV09", isIC01: false, name: "MMR(2) JE-IMO" },
+        { key: "GV10", isIC01: false, name: "4in1 DTaP+IPV" },
+      ],
+      selfpaid_vaccine: [
+        {key:"SP01",name:"RotaTeq"},
+        {key:"SP02",name:"RotaRix"},
+        {key:"SP03",name:"RotaTeq 北市"},
+        {key:"SP04",name:"RotaRix 北市"},
+        {key:"SP05",name:"PCV-13"},
+        {key:"SP06",name:"HAV"},
+      ],
+      identity: [
+        "民眾",
+        "(71)兒童健檢",
+        "(72)兒童健檢",
+        "(73)兒童健檢",
+        "(75)兒童健檢",
+        "(76)兒童健檢",
+        "(77)兒童健檢",
+        "(79)兒童健檢"
+      ],
       input: {
         goverment_vaccine_selected: "",
         selfpaid_vaccine_selected: [],
