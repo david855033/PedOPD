@@ -19,7 +19,7 @@
         <div id="identity" class="form-group" :size='identity.length'>
           <label for="identity">選看診身分</label>
           <select class="form-control" id="ic" size='5' v-model="input.identity_selected">
-            <option v-for='(e,i) in identity' :key="i" :value="e">{{e}}</option>
+            <option v-for='(e,i) in identity' :key="i" :value="e.key">{{e.name}}</option>
           </select>
         </div>
       </div>
@@ -62,21 +62,24 @@
               </label>
             </div>
             <div class="form-group" id="dose">
-              <label for="scanol-dose">劑量</label>
               <input type="number" id="scanol-dose" class="form-control" v-model="input.selfpaid_scanol_dose">
               <label for="scanol-dose">ml q6h PRN</label>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="vit-d" v-model="input.selfpaid_vitd">
               <label class="form-check-label" for="vit-d">
-                優寶D
+                VitaD
               </label>
+              <input type="number" id="vit-d-quantity" class="form-control" v-model="input.selfpaid_vitd_quantity">
+              <label for="vit-d-quantity">瓶</label>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="multi-vita" v-model="input.selfpaid_multivita">
               <label class="form-check-label" for="multi-vita">
-                綜合維他命
+                VitaBaby
               </label>
+              <input type="number" id="multi-vita-quantity" class="form-control" v-model="input.selfpaid_multivita_quantity">
+              <label for="multi-vita-quantity">瓶</label>
             </div>
           </div>
         </div>
@@ -97,10 +100,12 @@
       <div>selfpaid_scanol:{{input.selfpaid_scanol}}</div>
       <div>selfpaid_scanol_dose:{{input.selfpaid_scanol_dose}}</div>
       <div>selfpaid_vitd:{{input.selfpaid_vitd}}</div>
+      <div>selfpaid_vitd_quantity:{{input.selfpaid_vitd_quantity}}</div>
       <div>selfpaid_multivita:{{input.selfpaid_multivita}}</div>
+      <div>selfpaid_multivita_quantity:{{input.selfpaid_multivita_quantity}}</div>
       <h4>[output]</h4>
-      <h5>#IC01診(診間PA)</h5>
       <div v-show="opd.goverment_vaccine.show">
+        <h5>#IC01診(診間PA)</h5>
         <div>卡號:{{opd.goverment_vaccine.card_no}}</div>
         <div>身分:{{opd.goverment_vaccine.identity}}</div>
         <div>S:{{opd.goverment_vaccine.subjective}}</div>
@@ -109,8 +114,8 @@
         <div>診斷:{{opd.goverment_vaccine.diagnosis}}</div>
         <div>收費碼:{{opd.goverment_vaccine.order}}</div>
       </div>
-      <h5>#兒童健檢診(診間BB)</h5>
       <div v-show="opd.health_check.show">
+        <h5>#兒童健檢診(診間BB)</h5>
         <div>卡號:{{opd.health_check.card_no}}</div>
         <div>身分:{{opd.health_check.identity}}</div>
         <div>S:{{opd.health_check.subjective}}</div>
@@ -119,8 +124,8 @@
         <div>診斷:{{opd.health_check.diagnosis}}</div>
         <div>收費碼:{{opd.health_check.order}}</div>
       </div>
-      <h5>#自費診(原診間)</h5>
       <div v-show="opd.self_paid_visit.show">
+        <h5>#自費診(原診間)</h5>
         <div>卡號:{{opd.self_paid_visit.card_no}}</div>
         <div>身分:{{opd.self_paid_visit.identity}}</div>
         <div>S:{{opd.self_paid_visit.subjective}}</div>
@@ -147,25 +152,25 @@ export default {
         { key: "GV07", isIC01: false, name: "PCV-13(4)+HAV 1y" },
         { key: "GV08", isIC01: false, name: "5in1" },
         { key: "GV09", isIC01: false, name: "MMR(2) JE-IMO" },
-        { key: "GV10", isIC01: false, name: "4in1 DTaP+IPV" },
+        { key: "GV10", isIC01: false, name: "4in1 DTaP+IPV" }
       ],
       selfpaid_vaccine: [
-        {key:"SP01",name:"RotaTeq"},
-        {key:"SP02",name:"RotaRix"},
-        {key:"SP03",name:"RotaTeq 北市"},
-        {key:"SP04",name:"RotaRix 北市"},
-        {key:"SP05",name:"PCV-13"},
-        {key:"SP06",name:"HAV"},
+        { key: "SP01", name: "RotaTeq" },
+        { key: "SP02", name: "RotaRix" },
+        { key: "SP03", name: "RotaTeq 北市" },
+        { key: "SP04", name: "RotaRix 北市" },
+        { key: "SP05", name: "PCV-13" },
+        { key: "SP06", name: "HAV" }
       ],
       identity: [
-        "民眾",
-        "(71)兒童健檢",
-        "(72)兒童健檢",
-        "(73)兒童健檢",
-        "(75)兒童健檢",
-        "(76)兒童健檢",
-        "(77)兒童健檢",
-        "(79)兒童健檢"
+        { key: "ID01", name: "民眾" },
+        { key: "ID02", name: "(71)兒童健檢" },
+        { key: "ID03", name: "(72)兒童健檢" },
+        { key: "ID04", name: "(73)兒童健檢" },
+        { key: "ID05", name: "(75)兒童健檢" },
+        { key: "ID06", name: "(76)兒童健檢" },
+        { key: "ID07", name: "(77)兒童健檢" },
+        { key: "ID08", name: "(79)兒童健檢" }
       ],
       input: {
         goverment_vaccine_selected: "",
@@ -180,7 +185,9 @@ export default {
         selfpaid_scanol: false,
         selfpaid_scanol_dose: "",
         selfpaid_vitd: false,
-        selfpaid_multivita: false
+        selfpaid_vitd_quantity: "",
+        selfpaid_multivita: false,
+        selfpaid_multivita_quantity: ""
       },
       opd: {
         goverment_vaccine: {
@@ -226,9 +233,14 @@ export default {
   },
   methods: {
     submit: function() {
+      let vm = this;
       let input = this.input;
       let opd = this.opd;
-      if (input.goverment_vaccine_selected.indexOf("IC01") !== -1) {
+      let goverment_vaccine_selected = _.find(
+        vm.goverment_vaccine,
+        x => x.key == input.goverment_vaccine_selected
+      );
+      if (goverment_vaccine_selected.isIC01) {
         opd.goverment_vaccine.show = true;
       } else {
         opd.goverment_vaccine.show = false;
