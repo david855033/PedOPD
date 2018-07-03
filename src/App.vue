@@ -250,12 +250,12 @@ export default {
       ],
       selfpaid_vaccine: [
         { key: "SP00", name: "無自費疫苗" },
-        { key: "SP01", name: "RotaTeq" },
-        { key: "SP02", name: "RotaRix" },
-        { key: "SP03", name: "RotaTeq 北市" },
-        { key: "SP04", name: "RotaRix 北市" },
-        { key: "SP05", name: "PCV-13" },
-        { key: "SP06", name: "HAV" }
+        { key: "SP01", name: "RotaTeq", order: "" },
+        { key: "SP02", name: "RotaRix", order: "" },
+        { key: "SP03", name: "RotaTeq 北市", order: "" },
+        { key: "SP04", name: "RotaRix 北市", order: "" },
+        { key: "SP05", name: "PCV-13", order: "" },
+        { key: "SP06", name: "HAV", order: "" }
       ],
       identity: [
         { key: "ID00", name: "民眾" },
@@ -415,7 +415,14 @@ export default {
           _.find(vm.selfpaid_vaccine, y => y.key == x)
         ) || {};
 
-      //Block1. 根據兒健檢設定BB診收費碼
+      //Block 0.計價自費疫苗及其他自費藥品
+      //建立自費藥品收費清單
+      let self_paid_drug = [];
+      if (!_.find(selfpaid_vaccine_selected, x => x.key == "SP00")) {
+        _.forEach(selfpaid_vaccine_selected, x => self_paid_drug.push(x.order));
+      }
+
+      //Block1. 根據看診身分(有無兒健檢)設定使用BB診或是民眾診
       if (identity_selected.key == "ID00") {
         //無兒健檢(民眾)
         opd.self_paid_visit.show = true;
@@ -431,9 +438,9 @@ export default {
         opd.health_check.show = true;
         opd.health_check.diagnosis = ["V20.2_Z00.129"];
         opd.health_check.identity = "健保";
-        opd.health_check.card_no = identity_selected.card_no; //設定身分為對應的健(X)
+        opd.health_check.card_no = identity_selected.card_no; //設定身分為對應的健7X卡號
         _.forEach(identity_selected.order, x => opd.health_check.order.push(x)); //將健檢處置碼加入BB
-        //將公費疫苗相關注射處置掛在BB下
+        //將公費疫苗注射治療處置掛在BB診下
         _.forEach(goverment_vaccine_selected.injOrder, x =>
           opd.health_check.order.push(x)
         );
@@ -452,16 +459,17 @@ export default {
       //-- 3. 非IC01公費疫苗
 
       if (goverment_vaccine_selected.key == "GV00") {
-        //1. 無公費疫苗(GV00)
+        //1. 無公費疫苗(GV00) do nothing
       } else if (goverment_vaccine_selected.isIC01) {
         //2. IC01公費疫苗
         opd.ic01_vaccine.show = true;
         opd.ic01_vaccine.card_no = "IC01";
         opd.ic01_vaccine.diagnosis = ["V06.4_Z23"];
         opd.ic01_vaccine.identity = "健保";
+        //將疫苗藥物跟補助碼放入IC01
         _.forEach(goverment_vaccine_selected.order, x =>
           opd.ic01_vaccine.order.push(x)
-        ); //將疫苗藥物跟補助碼放入IC01
+        );
       } else if (!goverment_vaccine_selected.isIC01) {
         //3. 非IC01公費疫苗
         if (identity_selected.key == "ID00") {
@@ -476,9 +484,6 @@ export default {
           );
         }
       }
-
-      //Block 3.計價自費疫苗及其他自費藥品
-    
     }
   }
 };
