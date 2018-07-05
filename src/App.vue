@@ -210,7 +210,13 @@ export default {
             "M7001010(Syringe Needle)"
           ]
         },
-        { key: "GV07", isIC01: false, name: "PCV-13(4)+HAV 1y" }, //TODO
+        {
+          key: "GV07",
+          isIC01: false,
+          name: "PCV-13(4)+HAV 1y",
+          order: ["960DRU40(PCV-13)()", "960DRU57(AVAXIM)"], //todo
+          injOrder: ["96188151(IM SelfPaid)", "96188151(IM SelfPaid)"]
+        },
         {
           key: "GV08",
           isIC01: false,
@@ -250,11 +256,15 @@ export default {
       ],
       selfpaid_vaccine: [
         { key: "SP00", name: "無自費疫苗" },
-        { key: "SP01", name: "RotaTeq", order: "" },
-        { key: "SP02", name: "RotaRix", order: "" },
-        { key: "SP03", name: "RotaTeq 北市", order: "" },
-        { key: "SP04", name: "RotaRix 北市", order: "" },
-        { key: "SP05", name: "PCV-13", order: "" },
+        { key: "SP01", name: "RotaTeq", order: ["RotaTeq oral"] },
+        { key: "SP02", name: "RotaRix", order: ["Rotarix susp"] },
+        { key: "SP03", name: "RotaTeq 北市", order: ['RotaTeq TPE'] },
+        { key: "SP04", name: "RotaRix 北市", order: ['Rotarix TPE'] },
+        {
+          key: "SP05",
+          name: "PCV-13",
+          order: ["Prevenar13", "96188151(IM SelfPaid)"]
+        },
         { key: "SP06", name: "HAV", order: "" }
       ],
       identity: [
@@ -419,7 +429,23 @@ export default {
       //建立自費藥品收費清單
       let self_paid_drug = [];
       if (!_.find(selfpaid_vaccine_selected, x => x.key == "SP00")) {
-        _.forEach(selfpaid_vaccine_selected, x => self_paid_drug.push(x.order));
+        _.forEach(
+          selfpaid_vaccine_selected,
+          x => (self_paid_drug = _.concat(self_paid_drug, x.order))
+        );
+      }
+      if (input.selfpaid_scanol) {
+        self_paid_drug.push(
+          "scanol 1 bot " + input.selfpaid_scanol_dose + "ml q6h prn"
+        );
+      }
+      if (input.selfpaid_vitd) {
+        self_paid_drug.push("vitD " + input.selfpaid_vitd_quantity + " bot");
+      }
+      if (input.selfpaid_multivita) {
+        self_paid_drug.push(
+          "multiVit " + input.selfpaid_multivita_quantity + " bot"
+        );
       }
 
       //Block1. 根據看診身分(有無兒健檢)設定使用BB診或是民眾診
@@ -433,6 +459,8 @@ export default {
         _.forEach(goverment_vaccine_selected.injOrder, x =>
           opd.self_paid_visit.order.push(x)
         );
+        //將自費醫囑清單掛在自費診下
+        _.forEach(self_paid_drug, x => opd.self_paid_visit.order.push(x));
       } else {
         //有兒健檢
         opd.health_check.show = true;
@@ -444,6 +472,8 @@ export default {
         _.forEach(goverment_vaccine_selected.injOrder, x =>
           opd.health_check.order.push(x)
         );
+        //將自費醫囑清單掛在BB診下
+        _.forEach(self_paid_drug, x => opd.health_check.order.push(x));
         //如果有打疫苗(公費或自費)的話，BB診之診斷碼要加上疫苗注射
         if (
           goverment_vaccine_selected.key != "GV00" ||
