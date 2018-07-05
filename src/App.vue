@@ -459,6 +459,9 @@ export default {
         _.forEach(goverment_vaccine_selected.injOrder, x =>
           opd.self_paid_visit.order.push(x)
         );
+        //如果有打公費疫苗，且一歲以下，增加公費疫苗注射諮詢費96099402 ()
+
+        
         //將自費醫囑清單掛在自費診下
         _.forEach(self_paid_drug, x => opd.self_paid_visit.order.push(x));
       } else {
@@ -483,7 +486,7 @@ export default {
         }
       }
 
-      //Block2. 公費疫苗選取狀態
+      //Block2. 分流公費疫苗order
       //-- 1. 無公費疫苗(GV00)
       //-- 2. IC01公費疫苗
       //-- 3. 非IC01公費疫苗
@@ -514,6 +517,7 @@ export default {
           );
         }
       }
+
     }
   }
 };
