@@ -258,14 +258,14 @@ export default {
         { key: "SP00", name: "無自費疫苗" },
         { key: "SP01", name: "RotaTeq", order: ["RotaTeq oral"] },
         { key: "SP02", name: "RotaRix", order: ["Rotarix susp"] },
-        { key: "SP03", name: "RotaTeq 北市", order: ['RotaTeq TPE'] },
-        { key: "SP04", name: "RotaRix 北市", order: ['Rotarix TPE'] },
+        { key: "SP03", name: "RotaTeq 北市", order: ["RotaTeq TPE"] },
+        { key: "SP04", name: "RotaRix 北市", order: ["Rotarix TPE"] },
         {
           key: "SP05",
           name: "PCV-13",
           order: ["Prevenar13", "96188151(IM SelfPaid)"]
         },
-        { key: "SP06", name: "HAV", order: "" }
+        { key: "SP06", name: "HAV", order: "Avaxim" }
       ],
       identity: [
         { key: "ID00", name: "民眾" },
@@ -459,9 +459,6 @@ export default {
         _.forEach(goverment_vaccine_selected.injOrder, x =>
           opd.self_paid_visit.order.push(x)
         );
-        //如果有打公費疫苗，且一歲以下，增加公費疫苗注射諮詢費96099402 ()
-
-        
         //將自費醫囑清單掛在自費診下
         _.forEach(self_paid_drug, x => opd.self_paid_visit.order.push(x));
       } else {
@@ -517,7 +514,19 @@ export default {
           );
         }
       }
-
+      //BLOCK3 疫苗注射諮詢費
+      //無兒健檢才要
+      //如果是自費疫苗 則收96099S02(PED OPD SERVICE)
+      //公費疫苗小於一歲 收96099402(Consultation health)
+      if (identity_selected.key == "ID00") {
+        if (!_.find(selfpaid_vaccine_selected, x => x.key == "SP00")) {
+          opd.self_paid_visit.order.push("96099S02(PED OPD SERVICE)");
+        }else{
+          if(goverment_vaccine_selected.key != "GV00"){  //&& age<1
+             opd.self_paid_visit.order.push('96099402(Consultation health)')
+          }
+        }
+      }
     }
   }
 };
